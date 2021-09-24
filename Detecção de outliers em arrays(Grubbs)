@@ -1,0 +1,39 @@
+"importando as bibliotecas"
+import numpy as np
+import scipy.stats as stats
+
+"Variáveis teste: x e y"
+x = np.array([12,13,14,19,21,23])
+y = ([12,13,14,19,21,23,45])
+
+"Função que detecta outliers (Grubbs)"
+def outliersTest(x):
+    n = len(x)
+    
+    media_x = np.mean(x)
+    
+    sd_x = np.std(x)
+    
+    numerator = max(abs(x-media_x))
+    
+    g_calculated = numerator/sd_x
+    
+    print(f'Valor de Grubbs calculado: {g_calculated}')
+    
+    """TESTE-T"""
+    t_value = stats.t.ppf(1 - 0.05 / (2 * n), n -2)
+    
+    
+    """FÓRMULA DE GRUBBS"""
+    g_critical = ((n -1) * np.sqrt(np.square(t_value))) / (np.sqrt(n) * np.sqrt(n - 2 + np.square(t_value)))
+    
+    """VALOR CRÍTICO"""
+    print(f'Valor crítico de Grubbs: {g_critical}')
+          
+    """AVALIANDO O RESULTADO DO TESTE"""
+    if g_critical > g_calculated:
+          print('Para a variável "x" , observamos um valor calculado < valor crítico. Hipótese: não há Outliers')
+    else:
+          print('Para a variável "y" , observamos um valor calculado > valor crítico. Presença de outliers ')
+          
+  "AGORA CHAME A FUNÇÃO E VEJA O RESULTADO!"
